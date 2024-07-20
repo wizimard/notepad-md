@@ -1,10 +1,18 @@
 <script setup lang="ts">
 import { Notes, Categories, CurrentNote } from '@/components'
 import useNotesStore from '@/store/notes'
+import { onUpdated } from 'vue'
+import { useRoute } from 'vue-router'
 
 const state = useNotesStore()
+const route = useRoute()
 
 state.getData()
+
+onUpdated(() => {
+  console.log(route.params)
+  console.log(route.query.action)
+})
 </script>
 
 <template>

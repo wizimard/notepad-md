@@ -20,7 +20,7 @@ defineProps({
 ul {
   height: 100%;
   width: 100%;
-  padding: 0 15px 15px 0;
+  padding: 0 15px 30px 0;
 
   overflow: auto;
 

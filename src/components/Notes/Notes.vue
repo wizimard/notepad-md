@@ -3,6 +3,7 @@ import { reactive } from 'vue'
 import { SearchNote, Filter, ListNotes } from './components'
 import useNotesStore from '@/store/notes'
 import { storeToRefs } from 'pinia'
+import AddNote from './components/AddNote.vue'
 
 type TagType = {
   tag: string
@@ -51,6 +52,7 @@ const { notes } = storeToRefs(useNotesStore())
     <SearchNote :filterNotesBySearch="filterNotesBySearch" />
     <Filter :tags="filter.tags" :onClickTag="onClickTag" :onDeleteTag="onDeleteTag" />
     <ListNotes :notes="notes" />
+    <AddNote />
   </div>
 </template>
 
@@ -59,6 +61,8 @@ const { notes } = storeToRefs(useNotesStore())
   height: 100%;
   width: 22.62%;
   padding: 32px 0 0 15px;
+
+  position: relative;
 
   flex-shrink: 0;
 

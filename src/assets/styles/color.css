@@ -1,3 +1,19 @@
 .text-primary {
-  color: #868686;
+  color: var(--light100);
+}
+html {
+  --dark: #1b1b1b;
+  --dark100: #1f1f1f;
+  --dark200: #272727;
+  --dark300: #484848;
+
+  --light: #afafaf;
+  --light100: #868686;
+
+  --white: #ffffff;
+
+  --blue: #3471ff;
+  --blue-transparent: #232938;
+
+  --red: #cb1919;
 }

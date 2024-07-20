@@ -27,7 +27,7 @@ const { tags, onClickTag } = defineProps({
       <span class="header__text font-poppins-semibold">Filter</span>
       <span class="header__line"></span>
     </div>
-    <div class="tags">
+    <div v-if="tags.length" class="tags">
       <div
         v-for="tag in tags"
         :key="tag.tag"
@@ -35,7 +35,7 @@ const { tags, onClickTag } = defineProps({
       >
         <button class="tag__name" @click="onClickTag(tag.tag)">#{{ tag.tag }}</button>
         <button class="tag__delete" @click="onDeleteTag(tag.tag)">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#CE2400">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
             <path
               d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
             />
@@ -50,17 +50,22 @@ const { tags, onClickTag } = defineProps({
 .container {
   width: 100%;
   padding: 16px 15px 29px 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 15px;
 }
 .header {
   width: 100%;
-  padding-bottom: 15px;
 
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: 5px;
 
-  color: #484848;
+  color: var(--dark300);
 
   & img,
   &__text {
@@ -74,7 +79,7 @@ const { tags, onClickTag } = defineProps({
 
     flex-shrink: 1;
 
-    border-bottom: 2px solid #484848;
+    border-bottom: 2px solid var(--dark300);
   }
 }
 .tags {
@@ -88,7 +93,7 @@ const { tags, onClickTag } = defineProps({
   gap: 7px;
 }
 .tag {
-  color: #3471ff;
+  color: var(--blue);
 
   display: flex;
   align-items: center;
@@ -96,7 +101,7 @@ const { tags, onClickTag } = defineProps({
   gap: 2px;
 
   border-radius: 10px;
-  border: 1px solid #3471ff;
+  border: 1px solid var(--blue);
 
   &:hover {
     .tag__name {
@@ -109,7 +114,7 @@ const { tags, onClickTag } = defineProps({
 
   &_active {
     color: #1b1b1b;
-    background: #3471ff;
+    background: var(--blue);
   }
 
   &__name {
@@ -148,6 +153,8 @@ const { tags, onClickTag } = defineProps({
     & svg {
       width: 18px;
       height: 18px;
+
+      fill: var(--red);
     }
   }
 }

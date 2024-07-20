@@ -51,6 +51,9 @@ function onClickCategory() {
 </template>
 
 <style scoped>
+li {
+  width: 100%;
+}
 button {
   padding: 3px 0 5px 0;
 
@@ -113,6 +116,19 @@ button:focus {
 
   color: inherit;
   text-decoration: none;
+
+  & svg {
+    flex-shrink: 0;
+  }
+
+  & span {
+    width: 100%;
+
+    overflow: hidden;
+
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+  }
 }
 path {
   fill: #afafaf;
