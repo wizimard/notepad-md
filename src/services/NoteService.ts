@@ -15,6 +15,13 @@ class NoteService {
     return await this.axios.get<Note[]>('/notes')
   }
 
+  async getNote(id: number) {
+    return await this.axios.get<Note>(`/notes/${id}`)
+  }
+  async deleteNote(id: number) {
+    return await this.axios.delete<Note>(`/notes/${id}`)
+  }
+
   async getCategories() {
     return await this.axios.get<Category[]>('/categories')
   }
