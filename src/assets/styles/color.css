@@ -6,10 +6,12 @@ html {
   --dark100: #1f1f1f;
   --dark200: #272727;
   --dark300: #484848;
+  --dark400: #2d2d2d;
 
   --light: #afafaf;
   --light100: #868686;
-
+  --light200: #c8c8c8;
+  --light400: #898989;
   --white: #ffffff;
 
   --blue: #3471ff;

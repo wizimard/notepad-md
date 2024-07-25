@@ -37,7 +37,7 @@ if (!note) closeModal()
 </script>
 
 <template>
-  <div class="container">
+  <div v-if="!!note" class="container">
     <p>Are you sure you want to delete note "{{ note.name }}"?</p>
     <div class="btn-group">
       <button class="delete" @click="deleteHandler()">

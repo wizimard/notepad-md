@@ -1,1 +1,1 @@
-export { default as NotePage } from './NotePage.vue'
+export { default as Note } from './Note'

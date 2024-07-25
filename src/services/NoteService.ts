@@ -11,7 +11,7 @@ class NoteService {
     })
   }
 
-  async getNotes() {
+  async getNotes(page: number = 0) {
     return await this.axios.get<Note[]>('/notes')
   }
 

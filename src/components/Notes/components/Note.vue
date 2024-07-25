@@ -1,15 +1,27 @@
 <script setup lang="ts">
+import useModalStore from '@/store/modal'
 import Note from '@/types/model/note'
 import { ref } from 'vue'
 
-defineProps<{
+const { note } = defineProps<{
   note: Note
 }>()
+
+const { addModal } = useModalStore()
 
 const isShowActions = ref(false)
 
 const onClickActionsButton = () => {
   isShowActions.value = !isShowActions.value
+}
+
+const modalHandler = (type: 'edit' | 'delete') => {
+  addModal({
+    type,
+    data: {
+      id: note.id
+    }
+  })
 }
 </script>
 
@@ -31,7 +43,7 @@ const onClickActionsButton = () => {
     <div class="actions__container" v-if="isShowActions">
       <ul class="actions">
         <li>
-          <RouterLink :to="'/notes/' + note.id + '?action=edit'" class="actions__update">
+          <button class="actions__update" @click="modalHandler('edit')">
             <svg
               width="13"
               height="13"
@@ -46,10 +58,10 @@ const onClickActionsButton = () => {
             </svg>
 
             <span>update</span>
-          </RouterLink>
+          </button>
         </li>
         <li>
-          <RouterLink :to="'/notes/' + note.id + '?action=delete'" class="actions__delete">
+          <button class="actions__delete" @click="modalHandler('delete')">
             <svg
               width="13"
               height="13"
@@ -64,7 +76,7 @@ const onClickActionsButton = () => {
             </svg>
 
             <span>delete</span>
-          </RouterLink>
+          </button>
         </li>
       </ul>
     </div>
@@ -202,7 +214,7 @@ const onClickActionsButton = () => {
     }
   }
 
-  & a {
+  & button {
     width: 100%;
     padding: 5px 0 6px 12px;
 

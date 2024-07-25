@@ -6,7 +6,7 @@ export type ModalEditType = {
 }
 export type ModalCreateType = {
   type: 'create'
-  data: undefined
+  data?: unknown
 }
 export type ModalDeleteType = {
   type: 'delete'
@@ -17,7 +17,7 @@ export type ModalDeleteType = {
 
 type GeneralModalType = {
   type: string
-  data: any
+  data?: any
 }
 
 type ModalType = GeneralModalType | ModalEditType | ModalCreateType | ModalDeleteType

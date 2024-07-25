@@ -1,37 +1,31 @@
 <script setup lang="ts">
 import { Notes, Categories, CurrentNote, Modal } from '@/components'
-import useModalStore, { modalActions } from '@/store/modal'
+import useModalStore from '@/store/modal'
 import useNotesStore from '@/store/notes'
 import { watch } from 'vue'
 import { useRoute } from 'vue-router'
 
-const state = useNotesStore()
-const { addModal } = useModalStore()
 const route = useRoute()
 
-state.getData()
+const { getData, setCurrentNote } = useNotesStore()
+const { addModal } = useModalStore()
+
+await getData()
 
 watch(
+  () => route.params,
   () => {
-    route.params.id, route.query.action
-  },
-  () => {
-    if (typeof route.params.id !== 'string' && typeof route.query.action !== 'string') return
-
-    const action = route.query.action as string
-    const id = parseInt(route.params.id as string)
-
-    if (modalActions.includes(action)) {
-      const newModal = {
-        type: action,
-        data: id ? { id: id } : undefined
+    if (route.params?.id && typeof route.params.id === 'string') {
+      if (route.params.id === 'new') {
+        addModal({
+          type: 'create'
+        })
+        return
       }
-
-      addModal(newModal)
+      setCurrentNote(parseInt(route.params.id))
     }
   },
   {
-    deep: true,
     immediate: true
   }
 )

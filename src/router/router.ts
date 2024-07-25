@@ -1,11 +1,11 @@
 import { createWebHistory, createRouter } from 'vue-router'
-import { NotePage } from '@/pages'
+import { Note } from '@/pages'
 
 const routes = [
-  { path: '/', component: NotePage },
-  { path: '/notes', component: NotePage },
-  { path: '/notes/:id', component: NotePage },
-  { path: '/notes/search', component: NotePage }
+  { path: '/', component: Note },
+  { path: '/notes', component: Note },
+  { path: '/notes/:id', component: Note },
+  { path: '/notes/search', component: Note }
 ]
 
 const router = createRouter({
