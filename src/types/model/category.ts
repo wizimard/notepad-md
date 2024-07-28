@@ -1,7 +1,5 @@
 import { GeneralEntity } from './general'
 
-type Category = GeneralEntity & {
-  notes: GeneralEntity[]
-}
+type Category = GeneralEntity
 
 export default Category

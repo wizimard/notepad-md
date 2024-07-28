@@ -19,10 +19,14 @@ class NoteService {
     )
   }
 
-  async getNote(id: number) {
+  async getCategoryNotes(categoryId: string) {
+    return await this.axios.get<Note[]>(`/notes?category_id=${categoryId}`)
+  }
+
+  async getNote(id: string) {
     return await this.axios.get<Note>(`/notes/${id}`)
   }
-  async deleteNote(id: number) {
+  async deleteNote(id: string) {
     return await this.axios.delete<Note>(`/notes/${id}`)
   }
 

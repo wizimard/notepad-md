@@ -10,12 +10,7 @@ const { categories } = storeToRefs(useNotesStore())
   <div class="categories">
     <h4 class="text-primary">Categories</h4>
     <ul>
-      <Category
-        v-for="category of categories"
-        :key="category.id"
-        :name="category.name"
-        :notes="category.notes"
-      />
+      <Category v-for="category of categories" :key="category.id" v-bind="category" />
     </ul>
   </div>
 </template>

@@ -1,22 +1,38 @@
 <script setup lang="ts">
+import useNotesStore from '@/store/notes'
+import { LoaderSpinner } from '@/ui'
+import { reactive } from 'vue'
 import { ref } from 'vue'
-import type Note from '@/types/model/note'
 
-defineProps({
-  name: {
-    type: String,
-    required: true
-  },
-  notes: {
-    type: Array<Note>,
-    default: () => []
-  }
-})
+type Note = {
+  id: string
+  name: string
+}
 
-const isOpen = ref<boolean>(false)
+const { id, name } = defineProps<{
+  id: string
+  name: string
+}>()
 
-function onClickCategory() {
+const { getCategoryNotes } = useNotesStore()
+
+const isOpen = ref(false)
+const isLoading = ref(false)
+let isGettedNotes = false
+const notes = reactive<Note[]>([])
+
+const loadNotes = async () => {
+  if (isGettedNotes) return
+  isLoading.value = true
+  const categoryNotes = await getCategoryNotes(id)
+  if (categoryNotes) notes.push(...categoryNotes)
+  isLoading.value = false
+  isGettedNotes = true
+}
+
+const onClickCategory = async () => {
   isOpen.value = !isOpen.value
+  if (isOpen.value) await loadNotes()
 }
 </script>
 
@@ -45,6 +61,9 @@ function onClickCategory() {
             <span>{{ note.name }}</span>
           </RouterLink>
         </li>
+        <div v-if="isLoading" class="spinner-container">
+          <LoaderSpinner size="small" />
+        </div>
       </ul>
     </div>
   </li>
@@ -132,5 +151,13 @@ button:focus {
 }
 path {
   fill: #afafaf;
+}
+.spinner-container {
+  width: 100%;
+  padding-left: 10px;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 </style>

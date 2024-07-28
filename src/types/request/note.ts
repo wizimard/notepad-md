@@ -1,7 +1,7 @@
 interface Note {
-  id: number
+  id: string
   name: string
-  category_id: number
+  category_id: string
   content: string
   tags: string[]
   created_at: number

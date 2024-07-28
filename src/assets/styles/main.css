@@ -14,7 +14,7 @@ html {
   font-style: normal;
   font-size: 14px;
 
-  scrollbar-color: #3471ff #272727;
+  scrollbar-color: var(--blue) var(--dark200);
   scrollbar-width: thin;
 }
 html,
@@ -27,8 +27,8 @@ body,
 }
 
 body {
-  color: #fff;
-  background-color: #272727;
+  color: var(--white);
+  background-color: var(--dark200);
 }
 
 button,

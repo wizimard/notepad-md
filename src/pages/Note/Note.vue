@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Notes, Categories, CurrentNote, Modal } from '@/components'
-import useModalStore from '@/store/modal'
 import useNotesStore from '@/store/notes'
 import { watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
@@ -8,24 +7,16 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 
 const { getCategories, getNotes, clearCurrentNote, setCurrentNote } = useNotesStore()
-const { addModal } = useModalStore()
 
 await getCategories()
 await getNotes()
 
 watchEffect(() => {
   if (route.params?.id && typeof route.params.id === 'string') {
-    if (route.params.id === 'new') {
-      clearCurrentNote()
-      addModal({
-        type: 'create'
-      })
-      return
-    }
     setCurrentNote(parseInt(route.params.id))
   }
   clearCurrentNote()
-})
+}, {})
 </script>
 
 <template>

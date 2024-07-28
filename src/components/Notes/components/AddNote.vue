@@ -1,11 +1,22 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import useModalStore from '@/store/modal'
+
+const { addModal } = useModalStore()
+
+const handleClick = (ev) => {
+  console.log(ev.currentTarget.blur())
+  addModal({
+    type: 'create'
+  })
+}
+</script>
 
 <template>
-  <RouterLink to="/notes/new" class="add">
+  <button class="add" @click="handleClick">
     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
       <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
     </svg>
-  </RouterLink>
+  </button>
 </template>
 
 <style scoped lang="scss">

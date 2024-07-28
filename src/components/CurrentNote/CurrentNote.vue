@@ -1,14 +1,9 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { onUpdated } from 'vue'
 import useNotesStore from '@/store/notes'
 import { Header } from './components'
 
 const { currentNote } = storeToRefs(useNotesStore())
-
-onUpdated(() => {
-  console.log(currentNote)
-})
 </script>
 
 <template>

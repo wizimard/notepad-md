@@ -36,12 +36,7 @@ const useNotesStore = defineStore('notes', () => {
     try {
       const gettedCategories = (await noteService.getCategories()).data
 
-      gettedCategories.forEach((category) => {
-        categories.push({
-          ...category,
-          notes: []
-        })
-      })
+      categories.push(...gettedCategories)
     } catch (err) {
       console.error('Error get categories', err)
       addNotification('error', 'Something wrong when getting notes!')
@@ -54,8 +49,6 @@ const useNotesStore = defineStore('notes', () => {
       const page = Math.floor(notes.length / NOTES_PER_PAGE) + 1
       const getNotesResponse = (await noteService.getNotes(page)).data
       const newNotes: Note[] = []
-
-      console.log(getNotesResponse)
 
       isGettedAllNotes = !getNotesResponse.next
 
@@ -72,7 +65,7 @@ const useNotesStore = defineStore('notes', () => {
     }
   }
 
-  const getNote = async (id: number) => {
+  const getNote = async (id: string) => {
     const findNote = notes.find((note) => note.id == id)
     if (findNote) return findNote
 
@@ -91,7 +84,16 @@ const useNotesStore = defineStore('notes', () => {
     }
   }
 
-  const deleteNote = async (id: number) => {
+  const getCategoryNotes = async (categoryId: string) => {
+    try {
+      return (await noteService.getCategoryNotes(categoryId)).data
+    } catch (err) {
+      console.error(`Error get category notes, category id - ${categoryId}`, err)
+      addNotification('error', 'Something wrong when getting category notes!')
+    }
+  }
+
+  const deleteNote = async (id: string) => {
     try {
       const { id: noteId } = (await noteService.deleteNote(id)).data
 
@@ -108,7 +110,7 @@ const useNotesStore = defineStore('notes', () => {
     return true
   }
 
-  const setCurrentNote = async (id: number) => {
+  const setCurrentNote = async (id: string) => {
     const findNote = notes.find((note) => note.id == id)
     if (findNote) {
       currentNote.value = findNote
@@ -135,6 +137,7 @@ const useNotesStore = defineStore('notes', () => {
     getCategories,
     getNotes,
     getNote,
+    getCategoryNotes,
     deleteNote,
     setCurrentNote,
     clearCurrentNote

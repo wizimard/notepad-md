@@ -31,28 +31,42 @@ const deleteHandler = () => {
   })
 }
 
+const handleClickModal = (ev) => {
+  ev.stopPropagation()
+}
+
 const note = await getNote(noteId)
 
 if (!note) closeModal()
 </script>
 
 <template>
-  <div v-if="!!note" class="container">
-    <p>Are you sure you want to delete note "{{ note.name }}"?</p>
-    <div class="btn-group">
-      <button class="delete" @click="deleteHandler()">
-        <LoaderSpinner v-if="isLoading" size="small" />
-        <span v-else>DELETE</span>
-      </button>
-      <button class="cancel" @click="closeModal()">
-        <span>CANCEL</span>
-      </button>
+  <div v-if="!!note" class="container" @click="closeModal">
+    <div class="modal" @click="handleClickModal">
+      <p>Are you sure you want to delete note "{{ note.name }}"?</p>
+      <div class="btn-group">
+        <button class="delete" @click="deleteHandler()">
+          <LoaderSpinner v-if="isLoading" size="small" />
+          <span v-else>DELETE</span>
+        </button>
+        <button class="cancel" @click="closeModal()">
+          <span>CANCEL</span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .container {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal {
   width: 500px;
 
   background-color: var(--dark200);
