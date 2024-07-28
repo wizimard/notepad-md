@@ -6,15 +6,12 @@ import { defineStore } from 'pinia'
 import { reactive, ref } from 'vue'
 import useNotificationStore from './notification'
 
-interface categoryNote {
-  [key: number]: any[]
-}
-
 const NOTES_PER_PAGE = 10
 
 const useNotesStore = defineStore('notes', () => {
   const { addNotification } = useNotificationStore()
 
+  let isGettedAllNotes = false
   const notes = reactive<Note[]>([])
   const currentNote = ref<Note | null>(null)
   const categories = reactive<Category[]>([])
@@ -52,58 +49,23 @@ const useNotesStore = defineStore('notes', () => {
   }
 
   const getNotes = async () => {
+    if (isGettedAllNotes) return
     try {
       const page = Math.floor(notes.length / NOTES_PER_PAGE) + 1
       const getNotesResponse = (await noteService.getNotes(page)).data
       const newNotes: Note[] = []
 
-      getNotesResponse.forEach((noteResponse) => {
+      console.log(getNotesResponse)
+
+      isGettedAllNotes = !getNotesResponse.next
+
+      getNotesResponse.data.forEach((noteResponse) => {
+        if (notes.find((note) => note.id === noteResponse.id)) return
         const note = formatNote(noteResponse)
         if (note) newNotes.push(note)
       })
 
       notes.push(...newNotes)
-    } catch (err) {
-      console.error('Error get notes', err)
-      addNotification('error', 'Something wrong when getting notes!')
-    }
-  }
-
-  const getData = async () => {
-    try {
-      const gettedCategories = (await noteService.getCategories()).data
-      const categoriesNotes: categoryNote = {}
-
-      const getNotesResponse = await noteService.getNotes()
-
-      getNotesResponse.data.forEach((note) => {
-        const category = gettedCategories.filter((category) => {
-          if (category.id == note.category_id) {
-            const addNote = {
-              id: note.id,
-              name: note.name
-            }
-            if (categoriesNotes[note.category_id]) categoriesNotes[note.category_id].push(addNote)
-            else categoriesNotes[note.category_id] = [addNote]
-            return true
-          }
-          return false
-        })[0]
-
-        notes.push({
-          ...note,
-          category,
-          created_at: new Date(note.created_at),
-          updated_at: new Date(note.updated_at)
-        })
-      })
-
-      gettedCategories.forEach((category) => {
-        categories.push({
-          ...category,
-          notes: categoriesNotes[category.id]
-        })
-      })
     } catch (err) {
       console.error('Error get notes', err)
       addNotification('error', 'Something wrong when getting notes!')
@@ -162,15 +124,20 @@ const useNotesStore = defineStore('notes', () => {
     }
   }
 
+  const clearCurrentNote = () => {
+    currentNote.value = null
+  }
+
   return {
     notes,
     currentNote,
     categories,
     getCategories,
-    getData,
+    getNotes,
     getNote,
     deleteNote,
-    setCurrentNote
+    setCurrentNote,
+    clearCurrentNote
   }
 })
 

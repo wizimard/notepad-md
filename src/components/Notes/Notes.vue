@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
 import { SearchNote, Filter, ListNotes } from './components'
-import useNotesStore from '@/store/notes'
-import { storeToRefs } from 'pinia'
 import AddNote from './components/AddNote.vue'
 
 type TagType = {
@@ -43,15 +41,13 @@ function onClickTag(tag) {
 function onDeleteTag(tag) {
   filter.tags = filter.tags.filter((item) => item.tag !== tag)
 }
-
-const { notes } = storeToRefs(useNotesStore())
 </script>
 
 <template>
   <div class="notes">
     <SearchNote :filterNotesBySearch="filterNotesBySearch" />
     <Filter :tags="filter.tags" :onClickTag="onClickTag" :onDeleteTag="onDeleteTag" />
-    <ListNotes :notes="notes" />
+    <ListNotes />
     <AddNote />
   </div>
 </template>

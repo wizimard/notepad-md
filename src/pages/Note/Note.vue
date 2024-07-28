@@ -2,33 +2,30 @@
 import { Notes, Categories, CurrentNote, Modal } from '@/components'
 import useModalStore from '@/store/modal'
 import useNotesStore from '@/store/notes'
-import { watch } from 'vue'
+import { watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-const { getData, setCurrentNote } = useNotesStore()
+const { getCategories, getNotes, clearCurrentNote, setCurrentNote } = useNotesStore()
 const { addModal } = useModalStore()
 
-await getData()
+await getCategories()
+await getNotes()
 
-watch(
-  () => route.params,
-  () => {
-    if (route.params?.id && typeof route.params.id === 'string') {
-      if (route.params.id === 'new') {
-        addModal({
-          type: 'create'
-        })
-        return
-      }
-      setCurrentNote(parseInt(route.params.id))
+watchEffect(() => {
+  if (route.params?.id && typeof route.params.id === 'string') {
+    if (route.params.id === 'new') {
+      clearCurrentNote()
+      addModal({
+        type: 'create'
+      })
+      return
     }
-  },
-  {
-    immediate: true
+    setCurrentNote(parseInt(route.params.id))
   }
-)
+  clearCurrentNote()
+})
 </script>
 
 <template>

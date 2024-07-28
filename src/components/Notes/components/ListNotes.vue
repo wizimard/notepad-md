@@ -1,18 +1,28 @@
 <script setup lang="ts">
+import useNotesStore from '@/store/notes'
 import { Note } from '.'
-import { default as NoteType } from '@/types/model/note'
+import { storeToRefs } from 'pinia'
+import { ref } from 'vue'
+import { LoaderSpinner } from '@/ui'
 
-defineProps({
-  notes: {
-    type: Array<NoteType>,
-    default: () => []
-  }
-})
+const isLoading = ref(false)
+
+const { getNotes, ...notesStore } = useNotesStore()
+const { notes } = storeToRefs(notesStore)
+
+const getNotesHandler = async () => {
+  isLoading.value = true
+  await getNotes()
+  isLoading.value = false
+}
 </script>
 
 <template>
-  <ul>
+  <ul @scrollend="getNotesHandler()">
     <Note v-for="note in notes" :key="note.id" :note="note" />
+    <div v-if="isLoading" class="spinner">
+      <LoaderSpinner />
+    </div>
   </ul>
 </template>
 
@@ -31,5 +41,13 @@ ul {
   align-items: flex-start;
   justify-content: flex-start;
   gap: 10px;
+}
+.spinner {
+  width: 100%;
+  padding-top: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

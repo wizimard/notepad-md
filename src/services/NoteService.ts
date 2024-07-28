@@ -1,6 +1,8 @@
-import Note from '@/types/request/note'
+import Note, { GET_NOTES_RESPONSE_TYPE } from '@/types/request/note'
 import Category from '@/types/request/category'
 import axios, { AxiosInstance } from 'axios'
+
+const NOTES_PER_PAGE = 10
 
 class NoteService {
   axios: AxiosInstance
@@ -12,7 +14,9 @@ class NoteService {
   }
 
   async getNotes(page: number = 0) {
-    return await this.axios.get<Note[]>('/notes')
+    return await this.axios.get<GET_NOTES_RESPONSE_TYPE>(
+      `/notes?_page=${page}&_per_page=${NOTES_PER_PAGE}&_sort=-updated_at`
+    )
   }
 
   async getNote(id: number) {
