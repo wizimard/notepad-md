@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import useNotesStore from '@/store/notes'
-import { Header } from './components'
+import { Header, Note } from './components'
 
 const { currentNote } = storeToRefs(useNotesStore())
 </script>
@@ -15,6 +15,7 @@ const { currentNote } = storeToRefs(useNotesStore())
         :date="currentNote.updated_at"
         :tags="currentNote.tags"
       />
+      <Note :content="currentNote.content" />
     </template>
     <div v-else>NOTE NOT FOUND</div>
   </div>
@@ -26,8 +27,18 @@ const { currentNote } = storeToRefs(useNotesStore())
   width: 100%;
   padding: 87px 50px 20px 50px;
 
+  overflow: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 22px;
+
   flex-shrink: 1;
 
-  background-color: #1b1b1b;
+  background-color: var(--dark);
+
+  scrollbar-color: var(--blue) var(--dark);
 }
 </style>

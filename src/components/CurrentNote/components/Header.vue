@@ -44,6 +44,8 @@ const handleChangeViewDate = () => {
 .header {
   width: 100%;
 
+  flex-shrink: 0;
+
   &__title {
     padding-bottom: 0.5em;
 
