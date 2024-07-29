@@ -1,4 +1,4 @@
-import Note, { GET_NOTES_RESPONSE_TYPE } from '@/types/request/note'
+import Note, { SEARCH_NOTES_REQUEST_PARAMS_TYPE } from '@/types/request/note'
 import Category from '@/types/request/category'
 import axios, { AxiosInstance } from 'axios'
 
@@ -14,7 +14,7 @@ class NoteService {
   }
 
   async getNotes(page: number = 0) {
-    return await this.axios.get<GET_NOTES_RESPONSE_TYPE>(
+    return await this.axios.get<Note[]>(
       `/notes?_page=${page}&_per_page=${NOTES_PER_PAGE}&_sort=-updated_at`
     )
   }
@@ -25,6 +25,23 @@ class NoteService {
 
   async getNote(id: string) {
     return await this.axios.get<Note>(`/notes/${id}`)
+  }
+  async searchNotes(params: SEARCH_NOTES_REQUEST_PARAMS_TYPE, page: number = 1) {
+    const response = await this.axios.get<Note[]>(
+      `/notes?_page=${page}&_per_page=${NOTES_PER_PAGE}&_sort=-updated_at${params.name ? `&name_like=${params.name}` : ''}${params.category_id ? `&category_id=${params.category_id}` : ''}`
+    )
+    return response.data.filter((note) => {
+      let isPass = true
+
+      for (const tag of params.tags) {
+        if (!note.tags.includes(tag)) {
+          isPass = false
+          break
+        }
+      }
+
+      return isPass
+    })
   }
   async deleteNote(id: string) {
     return await this.axios.delete<Note>(`/notes/${id}`)
