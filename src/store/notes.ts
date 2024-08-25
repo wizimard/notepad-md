@@ -47,12 +47,12 @@ const useNotesStore = defineStore('notes', () => {
     if (isGettedAllNotes) return
     try {
       const page = Math.floor(notes.length / NOTES_PER_PAGE) + 1
-      const getNotesResponse = (await noteService.getNotes(page)).data
+      const notesResponse = (await noteService.getNotes(page)).data
       const newNotes: Note[] = []
 
-      isGettedAllNotes = !getNotesResponse.next
+      isGettedAllNotes = !notesResponse.length
 
-      getNotesResponse.data.forEach((noteResponse) => {
+      notesResponse.forEach((noteResponse) => {
         if (notes.find((note) => note.id === noteResponse.id)) return
         const note = formatNote(noteResponse)
         if (note) newNotes.push(note)

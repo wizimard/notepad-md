@@ -1,5 +1,9 @@
 import { GeneralEntity } from './general'
 
+export type SHORT_NOTE = GeneralEntity & {
+  content: string
+}
+
 type Note = GeneralEntity & {
   category: GeneralEntity
   content: string

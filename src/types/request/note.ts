@@ -18,4 +18,10 @@ export type GET_NOTES_RESPONSE_TYPE = {
   prev: string | null
 }
 
+export type SEARCH_NOTES_REQUEST_PARAMS_TYPE = {
+  name: string
+  tags: string[]
+  category_id?: number
+}
+
 export default Note
