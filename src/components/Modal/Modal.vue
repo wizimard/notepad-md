@@ -25,15 +25,26 @@ const modalComponents = computed(() => {
   }))
 })
 
-const keyUpHadler = (ev) => {
-  if (ev.key === 'Escape') modalStore.deleteModal()
+const keyDownHadler = (ev) => {
+  if (ev.key === 'Escape') {
+    const activeElement = document.activeElement
+    const tagName = activeElement?.tagName.toLowerCase()
+    console.log(activeElement)
+    if (
+      tagName == 'input' ||
+      tagName == 'textarea' ||
+      (tagName == 'div' && (activeElement as HTMLDivElement).contentEditable)
+    )
+      return
+    modalStore.deleteModal()
+  }
 }
 
 onMounted(() => {
-  window.addEventListener('keyup', keyUpHadler)
+  window.addEventListener('keydown', keyDownHadler)
 })
 onUnmounted(() => {
-  window.removeEventListener('keyup', keyUpHadler)
+  window.removeEventListener('keydown', keyDownHadler)
 })
 </script>
 

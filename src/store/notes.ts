@@ -110,6 +110,30 @@ const useNotesStore = defineStore('notes', () => {
     return true
   }
 
+  const createNote = async (note: any) => {
+    try {
+      const result = (await noteService.createNote(note)).data
+      console.log(result)
+    } catch (err) {
+      console.error('Error create note', err)
+      addNotification('error', 'Something wrong when creating a note!')
+      return false
+    }
+    return true
+  }
+
+  const updateNote = async (note: any) => {
+    try {
+      const result = (await noteService.updateNote(note)).data
+      console.log(result)
+    } catch (err) {
+      console.error('Error update note', err)
+      addNotification('error', 'Something wrong when updating a note!')
+      return false
+    }
+    return true
+  }
+
   const setCurrentNote = async (id: string) => {
     const findNote = notes.find((note) => note.id == id)
     if (findNote) {
@@ -140,7 +164,9 @@ const useNotesStore = defineStore('notes', () => {
     getCategoryNotes,
     deleteNote,
     setCurrentNote,
-    clearCurrentNote
+    clearCurrentNote,
+    createNote,
+    updateNote
   }
 })
 

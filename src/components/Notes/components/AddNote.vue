@@ -4,7 +4,6 @@ import useModalStore from '@/store/modal'
 const { addModal } = useModalStore()
 
 const handleClick = (ev) => {
-  console.log(ev.currentTarget.blur())
   addModal({
     type: 'create'
   })

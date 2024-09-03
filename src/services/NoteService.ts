@@ -1,4 +1,5 @@
 import Note, { SEARCH_NOTES_REQUEST_PARAMS_TYPE } from '@/types/request/note'
+import { default as NoteModel } from '@/types/model/note'
 import Category from '@/types/request/category'
 import axios, { AxiosInstance } from 'axios'
 
@@ -47,8 +48,24 @@ class NoteService {
     return await this.axios.delete<Note>(`/notes/${id}`)
   }
 
+  async updateNote(note: NoteModel) {
+    return await this.axios.patch(`/notes/${note.id}`, note)
+  }
+
+  async createNote(note: any) {
+    return await this.axios.post('/notes', note)
+  }
+
   async getCategories() {
     return await this.axios.get<Category[]>('/categories')
+  }
+
+  async createCategory(category: Category) {
+    return await this.axios.post('/categories', category)
+  }
+
+  async deleteCategory(id: string) {
+    return await this.axios.delete(`/categories/${id}`)
   }
 }
 
