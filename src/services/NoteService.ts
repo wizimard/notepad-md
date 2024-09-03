@@ -53,7 +53,7 @@ class NoteService {
   }
 
   async createNote(note: any) {
-    return await this.axios.post('/notes', note)
+    return await this.axios.post<Note>('/notes', note)
   }
 
   async getCategories() {
@@ -61,7 +61,7 @@ class NoteService {
   }
 
   async createCategory(category: Category) {
-    return await this.axios.post('/categories', category)
+    return await this.axios.post<Category>('/categories', category)
   }
 
   async deleteCategory(id: string) {
